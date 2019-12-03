@@ -9,7 +9,7 @@ Currently this docker image is building the source off from a forked version in 
 4. Build the bluecherry image with `docker-compose build`
 5. Start bluecherry with `docker-compose up -d bluecherry`
 
-You should be able to access the bluecherry server interface on http://localhost:7001
+You should be able to access the bluecherry server interface on https://localhost:7001
 
 ***NOTE: at the moment there is an issue loading the LIB path. You can login locally and start up bc-server
 ```
