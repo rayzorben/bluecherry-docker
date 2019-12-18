@@ -31,6 +31,7 @@ services:
       - /dev/dri:/dev/dri
     ports:
         - "7001:7001"
+        - "7002:7002"
     depends_on:
         - mysql
 
