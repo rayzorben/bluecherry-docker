@@ -69,8 +69,8 @@ RUN { \
     { \
         echo bluecherry bluecherry/mysql_admin_login password $MYSQL_ADMIN_LOGIN;       \
         echo bluecherry bluecherry/mysql_admin_password password $MYSQL_ADMIN_PASSWORD; \
-        echo bluecherry bluecherry/db_host string $host;
-        echo bluecherry bluecherry/db_userhost string $userhost;
+        echo bluecherry bluecherry/db_host string $host;                                \
+        echo bluecherry bluecherry/db_userhost string $userhost;                        \
         echo bluecherry bluecherry/db_name string $dbname;                              \
         echo bluecherry bluecherry/db_user string $user;                                \
         echo bluecherry bluecherry/db_password password $password;                      \
