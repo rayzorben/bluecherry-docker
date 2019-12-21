@@ -24,9 +24,12 @@ services:
           BLUECHERRY_DB_NAME: $BLUECHERRY_DB_NAME
           MYSQL_HOST: $MYSQL_HOST
           BLUECHERRY_USERHOST: $BLUECHERRY_USERHOST
+          BLUECHERRY_GROUP_ID: $BLUECHERRY_GROUP_ID
+          BLUECHERRY_USER_ID: $BLUECHERRY_USER_ID
     restart: unless-stopped
     volumes:
       - /mnt/security:/recordings
+      - /home/user/docker/bluecherry-docker/etc/bluecherry.conf:/etc/bluecherry.conf
     devices:
       - /dev/dri:/dev/dri
     ports:

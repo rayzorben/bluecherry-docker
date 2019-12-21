@@ -9,6 +9,8 @@ ARG BLUECHERRY_DB_USER
 ARG BLUECHERRY_DB_PASSWORD
 ARG BLUECHERRY_DB_NAME
 ARG BLUECHERRY_USERHOST
+ARG BLUECHERRY_GROUP_ID
+ARG BLUECHERRY_USER_ID
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV MYSQL_ADMIN_LOGIN=$MYSQL_ADMIN_LOGIN
@@ -18,6 +20,8 @@ ENV host=$MYSQL_HOST
 ENV userhost=$BLUECHERRY_USERHOST
 ENV user=$BLUECHERRY_DB_USER
 ENV password=$BLUECHERRY_DB_PASSWORD
+ENV BLUECHERRY_GROUP_ID=${BLUECHERRY_GROUP_ID:-1001}
+ENV BLUECHERRY_USER_ID=${BLUECHERRY_USER_ID:-1001}
 
 #######################################################
 # build the application from github
@@ -29,7 +33,7 @@ WORKDIR /root
 RUN \
     apt-get update && \
     apt-get install -y git sudo && \
-    git clone https://github.com/rayzorben/bluecherry-apps.git && \
+    git clone https://github.com/bluecherrydvr/bluecherry-apps.git && \
     cd bluecherry-apps && \
     scripts/build_pkg_native.sh
 
@@ -45,8 +49,11 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 COPY --from=build /root/bluecherry-apps/releases/*.deb /root/
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY etc/bluecherry.con[f] /etc/bluecherry.conf
 
-RUN { \
+RUN /usr/sbin/groupadd -r -f -g $BLUECHERRY_GROUP_ID bluecherry && \
+    useradd -c "Bluecherry DVR" -d /var/lib/bluecherry -g bluecherry -G audio,video -r -m bluecherry -u $BLUECHERRY_USER_ID && \
+    { \
         echo "[client]";                        \
         echo "user=$MYSQL_ADMIN_LOGIN";         \
         echo "password=$MYSQL_ADMIN_PASSWORD";  \
