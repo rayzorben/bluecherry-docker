@@ -29,7 +29,7 @@ services:
     restart: unless-stopped
     volumes:
       - /mnt/security:/recordings
-      - /home/user/docker/bluecherry-docker/etc/bluecherry.conf:/etc/bluecherry.conf
+      - ./etc/bluecherry.conf:/etc/bluecherry.conf
     devices:
       - /dev/dri:/dev/dri
     ports:

@@ -49,7 +49,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 COPY --from=build /root/bluecherry-apps/releases/*.deb /root/
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-COPY etc/bluecherry.con[f] /etc/bluecherry.conf
+COPY Dockerfile etc/bluecherry.conf* /etc/
 
 RUN /usr/sbin/groupadd -r -f -g $BLUECHERRY_GROUP_ID bluecherry && \
     useradd -c "Bluecherry DVR" -d /var/lib/bluecherry -g bluecherry -G audio,video -r -m bluecherry -u $BLUECHERRY_USER_ID && \
@@ -83,6 +83,8 @@ RUN /usr/sbin/groupadd -r -f -g $BLUECHERRY_GROUP_ID bluecherry && \
         echo bluecherry bluecherry/db_password password $password;                      \
     } | debconf-set-selections  && \
     dpkg -i bluecherry_*.deb    && \
-    apt-get autoremove -y
+    rm /root/bluecherry_*.deb   && \
+    rm -rf /var/lib/apt/lists/* && \
+    rm /etc/Dockerfile
 
 CMD ["/usr/bin/supervisord"]
